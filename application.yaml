@@ -14,7 +14,9 @@ spec:
     path: argo/app-of-apps/overlays/default
   syncPolicy:
     automated:
+      enabled: true
       prune: true
       selfHeal: true
+      allowEmpty: true
     syncOptions:
       - RespectIgnoreDifferences=true

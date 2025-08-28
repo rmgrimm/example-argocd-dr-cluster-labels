@@ -34,4 +34,7 @@ spec:
       destination:
         server: '{{.server}}'
         namespace: workloads
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
 
