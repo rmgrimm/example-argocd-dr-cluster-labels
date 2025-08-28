@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: echo-loop
+          image: image-registry.openshift-image-registry.svc:5000/openshift/tools:latest
+          imagePullPolicy: Always
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+
+              while true
+              do
+                echo $MESSAGE
+                sleep 5
+              done
+          envFrom:
+            - configMapRef:
+                name: default

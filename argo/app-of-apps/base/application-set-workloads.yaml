@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workload-app-set
+  namespace: openshift-gitops
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - matrix:
+        generators:
+          - clusters:
+              values:
+                dr-state: '{{index .metadata.labels "dr-state"}}'
+          - git:
+              repoURL: https://github.com/rmgrimm/example-argocd-dr-cluster-labels.git
+              revision: main
+              directories:
+                - path: manifests/workloads/overlays/*
+  template:
+    metadata:
+      name: '{{.name}}-workloads'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rmgrimm/example-argocd-dr-cluster-labels.git
+        targetRevision: main
+        path: '{{.path.path}}'
+
+        kustomize:
+          components:
+            - '../../components/dr-{{index .values "dr-state"}}'
+      destination:
+        server: '{{.server}}'
+        namespace: workloads
+
