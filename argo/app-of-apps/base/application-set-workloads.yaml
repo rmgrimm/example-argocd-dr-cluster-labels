@@ -35,6 +35,12 @@ spec:
         server: '{{.server}}'
         namespace: workloads
       syncPolicy:
+        automated:
+          enabled: true
+          prune: true
+          selfHeal: true
+          allowEmpty: true
         syncOptions:
           - CreateNamespace=true
+          - RespectIgnoreDifferences=true
 
