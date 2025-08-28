@@ -10,6 +10,7 @@ replacements:
       group: ''
       version: v1
       kind: ConfigMap
+      fieldPath: metadata.name
     targets:
       - select:
           group: apps
