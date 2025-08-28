@@ -11,8 +11,13 @@ spec:
     - matrix:
         generators:
           - clusters:
-              values:
-                dr-state: '{{index .metadata.labels "dr-state"}}'
+              selector:
+                matchExpressions:
+                  - key: dr-state
+                    operator: In
+                    values:
+                      - active
+                      - passive
           - git:
               repoURL: https://github.com/rmgrimm/example-argocd-dr-cluster-labels.git
               revision: main
@@ -30,7 +35,7 @@ spec:
 
         kustomize:
           components:
-            - '../../components/dr-{{index .values "dr-state"}}'
+            - '../../components/dr-{{index .metadata.labels "dr-state"}}'
       destination:
         server: '{{.server}}'
         namespace: workloads
