@@ -20,7 +20,7 @@ spec:
                 - path: manifests/workloads/overlays/*
   template:
     metadata:
-      name: '{{.name}}-workloads'
+      name: 'workload-{{.path.basenameNormalized}}'
     spec:
       project: default
       source:
@@ -36,7 +36,6 @@ spec:
         namespace: workloads
       syncPolicy:
         automated:
-          enabled: true
           prune: true
           selfHeal: true
           allowEmpty: true
